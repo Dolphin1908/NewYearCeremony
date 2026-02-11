@@ -20,6 +20,7 @@
         };
         const musicBtn = document.getElementById('music-btn');
         const bgMusic = document.getElementById('bg-music');
+        const wishText = document.getElementById('wishText');
         let isPlaying = false;
         let fireworksActive = false;
 
@@ -87,6 +88,13 @@
         }
 
         // 3. Random câu chúc
+        // Set câu chúc ban đầu
+        function setRandomWish() {
+            const randomIndex = Math.floor(Math.random() * wishes.length);
+            wishText.innerText = wishes[randomIndex];
+        }
+        setRandomWish();
+
         function randomWish() {
             const content = document.getElementById('greeting-content');
             
@@ -95,7 +103,7 @@
             
             setTimeout(() => {
                 const randomIndex = Math.floor(Math.random() * wishes.length);
-                content.innerHTML = `<p class="text-lg leading-relaxed text-white font-serif-display italic">"${wishes[randomIndex]}"</p>`;
+                content.innerHTML = `<p class="text-lg leading-relaxed text-white font-serif-display italic">${wishes[randomIndex]}</p>`;
                 content.style.opacity = 1;
             }, 300);
         }
