@@ -1,18 +1,18 @@
-// --- DATA: DANH SÁCH LỜI CHÚC ---
+// --- DATA (Poetic/Healing Edition) ---
         const wishes = [
-            "Chúc bạn 12 tháng phú quý, 365 ngày phát tài, 8760 giờ sung túc, 525600 phút thành công, 31536000 giây vạn sự như ý.",
-            "Năm mới Bính Ngọ, chúc bạn: Mã đáo thành công - Tấn tài tấn lộc - Vạn sự bình an.",
-            "Tiền vào như nước sông Đà, tiền ra nhỏ giọt như cà phê phin.",
-            "Chúc bạn: Đau đầu vì nhà giàu. Mệt mỏi vì học giỏi. Buồn phiền vì nhiều tiền. Ngang trái vì xinh gái. Và mất ngủ vì không có đối thủ!",
-            "Cung chúc tân xuân phước vĩnh cửu. Chúc trong gia quyến được an khương. Tân niên lai đáo đa phú quý. Xuân đến an khương vạn thọ tường.",
-            "Năm mới chúc nhau sức khỏe nhiều. Bạc tiền rủng rỉnh thoải mái tiêu. Gia đình hạnh phúc bè bạn quý. Thanh thản vui chơi mọi buổi chiều.",
-            "Chúc mừng năm mới 2026. Chúc bạn nghìn sự như ý, vạn sự như mơ, triệu sự bất ngờ, tỷ lần hạnh phúc.",
-            "Năm Ngựa chúc bạn sức khỏe vô biên, kiếm được nhiều tiền, đời sướng như tiên.",
-            "Tống cựu nghênh tân – Vạn sự cát tường – Toàn gia hạnh phúc.",
-            "Chúc bạn năm mới: Ăn nhiều không béo, tiền nhiều không méo, tình cảm không héo."
+            "Chúc bạn năm mới dịu dàng như mây, tự do như gió, và trái tim luôn ấm áp như nắng ban mai.",
+            "Mong năm mới bạn tìm thấy niềm vui trong những điều nhỏ bé nhất: một tách trà ngon, một cuốn sách hay, một ngày nắng đẹp.",
+            "Chúc bạn năm 2026: Đủ dũng cảm để theo đuổi ước mơ, đủ bình yên để tận hưởng hiện tại.",
+            "Năm mới Bính Ngọ, mong bạn vững chãi như cây, nở hoa rực rỡ và luôn hướng về phía mặt trời.",
+            "Không cần phải rực rỡ như pháo hoa, chỉ cần bền bỉ và ấm áp như ngọn đèn nhỏ. Chúc bạn an yên.",
+            "Chúc bạn một năm mới không muộn phiền. Mọi vết thương đều được chữa lành, mọi nỗ lực đều được đền đáp.",
+            "Hãy sống như một chú mèo: Ăn ngon, ngủ kỹ, được yêu thương và luôn kiêu hãnh.",
+            "Mã đáo thành công. Chúc bạn chạy nhanh như gió trên thảo nguyên xanh của chính mình.",
+            "Năm mới, mong bạn luôn có một nơi để trở về, một người để yêu thương và một giấc mơ để hy vọng.",
+            "Chúc mọi cơn mưa đi qua đều để lại cầu vồng. Chúc mọi khó khăn đều giúp bạn mạnh mẽ hơn."
         ];
 
-        // --- STATE MANAGEMENT ---
+        // --- CORE LOGIC ---
         const screens = {
             quiz: document.getElementById('screen-quiz'),
             loading: document.getElementById('screen-loading'),
@@ -20,129 +20,75 @@
         };
         const musicBtn = document.getElementById('music-btn');
         const bgMusic = document.getElementById('bg-music');
-        const wishText = document.getElementById('wishText');
         let isPlaying = false;
-        let fireworksActive = false;
+        let firefliesActive = false;
 
-        // --- AUTOPLAY LOGIC ---
-        // Cố gắng phát nhạc ngay khi tải trang
+        // --- INIT & AUTOPLAY ---
         document.addEventListener('DOMContentLoaded', () => {
-            bgMusic.volume = 0.5; // Đặt âm lượng vừa phải
+            bgMusic.volume = 0.4;
+            // Attempt autoplay
+            bgMusic.play().then(() => updateMusicState(true)).catch(() => updateMusicState(false));
             
-            // Promise kiểm tra xem trình duyệt có cho phép autoplay không
-            const playPromise = bgMusic.play();
-
-            if (playPromise !== undefined) {
-                playPromise.then(_ => {
-                    // Autoplay thành công
-                    isPlaying = true;
-                    musicBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
-                })
-                .catch(error => {
-                    // Autoplay bị chặn
-                    console.log("Trình duyệt chặn autoplay. Chờ tương tác của người dùng.");
-                    isPlaying = false;
-                    musicBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
-                    
-                    // Thêm sự kiện click một lần vào body để bật nhạc khi người dùng chạm vào bất cứ đâu
-                    const enableAudio = () => {
-                        bgMusic.play();
-                        isPlaying = true;
-                        musicBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
-                        // Xóa sự kiện sau khi đã chạy xong
-                        document.removeEventListener('click', enableAudio);
-                    };
-                    document.addEventListener('click', enableAudio);
-                });
-            }
+            // Start Canvas immediately for ambience
+            startFireflies();
         });
 
-        // --- FUNCTIONS ---
+        function updateMusicState(playing) {
+            isPlaying = playing;
+            musicBtn.innerHTML = playing ? '<i class="fas fa-volume-up"></i>' : '<i class="fas fa-volume-mute"></i>';
+            if (playing) bgMusic.play(); else bgMusic.pause();
+        }
 
-        // 1. Chuyển cảnh
+        musicBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            updateMusicState(!isPlaying);
+        });
+
+        // --- NAVIGATION ---
         function switchScreen(fromId, toId) {
             const fromScreen = screens[fromId];
             const toScreen = screens[toId];
-
             fromScreen.style.opacity = '0';
             setTimeout(() => {
                 fromScreen.classList.remove('active');
                 toScreen.classList.add('active');
-                // Trigger reflow
-                void toScreen.offsetWidth;
+                void toScreen.offsetWidth; 
                 toScreen.style.opacity = '1';
             }, 800);
         }
 
-        // 2. Xử lý khi chọn đáp án
         function handleAnswer(choice) {
-            console.log("User chose: " + choice);
-            // Có thể lưu lựa chọn vào localStorage nếu muốn
             switchScreen('quiz', 'loading');
-
-            // Giả lập thời gian chờ 2 giây rồi chuyển sang thiệp
             setTimeout(() => {
+                randomWish();
                 switchScreen('loading', 'card');
-                startFireworks();
-            }, 2500);
+            }, 2500); // Slower transition for calmness
         }
-
-        // 3. Random câu chúc
-        // Set câu chúc ban đầu
-        function setRandomWish() {
-            const randomIndex = Math.floor(Math.random() * wishes.length);
-            wishText.innerText = wishes[randomIndex];
-        }
-        setRandomWish();
 
         function randomWish() {
             const content = document.getElementById('greeting-content');
-            
-            // Animation fade text
             content.style.opacity = 0;
             
             setTimeout(() => {
                 const randomIndex = Math.floor(Math.random() * wishes.length);
-                content.innerHTML = `<p class="text-lg leading-relaxed text-white font-serif-display italic">${wishes[randomIndex]}</p>`;
+                content.innerHTML = `<p class="font-hand text-2xl text-[#4A4E69] leading-loose">${wishes[randomIndex]}</p>`;
                 content.style.opacity = 1;
-            }, 300);
+            }, 500);
         }
 
-        // 4. Chia sẻ (Copy link)
         function shareLink() {
-            const url = window.location.href;
-            navigator.clipboard.writeText(url).then(() => {
-                alert("Đã sao chép liên kết! Hãy gửi cho bạn bè nhé.");
-            });
+            navigator.clipboard.writeText(window.location.href).then(() => alert("Đã lưu liên kết vào túi thần kỳ!"));
         }
 
-        // 5. Làm lại từ đầu
         function restart() {
             switchScreen('card', 'quiz');
-            stopFireworks();
         }
 
-        // 6. Xử lý nhạc (Nút bật/tắt thủ công)
-        musicBtn.addEventListener('click', (e) => {
-            // Ngăn sự kiện click này lan ra body (tránh kích hoạt enableAudio 2 lần nếu trùng)
-            e.stopPropagation(); 
-            
-            if (isPlaying) {
-                bgMusic.pause();
-                musicBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
-            } else {
-                bgMusic.play();
-                musicBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
-            }
-            isPlaying = !isPlaying;
-        });
-
-        // --- FIREWORKS EFFECT (CANVAS) ---
-        const canvas = document.getElementById('fireworks-canvas');
+        // --- FIREFLIES (DOM DOM) EFFECT ---
+        const canvas = document.getElementById('fireflies-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
-        let animationId;
-
+        
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
@@ -150,76 +96,45 @@
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        function createParticle(x, y) {
-            const particleCount = 30;
-            for (let i = 0; i < particleCount; i++) {
-                particles.push({
-                    x: x,
-                    y: y,
-                    color: `hsl(${Math.random() * 360}, 100%, 50%)`,
-                    radius: Math.random() * 3,
-                    velocity: {
-                        x: (Math.random() - 0.5) * 6,
-                        y: (Math.random() - 0.5) * 6
-                    },
-                    life: 100,
-                    alpha: 1
-                });
-            }
+        function createFirefly() {
+            return {
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 3 + 1,
+                speedX: (Math.random() - 0.5) * 0.5,
+                speedY: (Math.random() - 0.5) * 0.5,
+                alpha: Math.random(),
+                pulseSpeed: 0.02 + Math.random() * 0.03
+            };
         }
 
-        function animateFireworks() {
-            if (!fireworksActive) return;
+        for(let i=0; i<40; i++) particles.push(createFirefly());
 
-            ctx.globalCompositeOperation = 'destination-out';
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.globalCompositeOperation = 'lighter';
-
-            // Random auto fireworks
-            if (Math.random() < 0.05) {
-                createParticle(Math.random() * canvas.width, Math.random() * canvas.height / 2);
-            }
-
-            particles.forEach((p, index) => {
-                if (p.life > 0) {
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                    ctx.fillStyle = p.color;
-                    ctx.globalAlpha = p.alpha;
-                    ctx.fill();
-                    ctx.globalAlpha = 1;
-
-                    p.x += p.velocity.x;
-                    p.y += p.velocity.y;
-                    p.velocity.y += 0.05; // Gravity
-                    p.life--;
-                    p.alpha -= 0.01;
-                } else {
-                    particles.splice(index, 1);
-                }
+        function animateFireflies() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach(p => {
+                p.x += p.speedX;
+                p.y += p.speedY;
+                if(p.x < 0) p.x = canvas.width;
+                if(p.x > canvas.width) p.x = 0;
+                if(p.y < 0) p.y = canvas.height;
+                if(p.y > canvas.height) p.y = 0;
+                
+                p.alpha += p.pulseSpeed;
+                if(p.alpha > 1 || p.alpha < 0.2) p.pulseSpeed = -p.pulseSpeed;
+                
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 200, ${Math.abs(p.alpha)})`; 
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = "white";
+                ctx.fill();
             });
 
-            animationId = requestAnimationFrame(animateFireworks);
+            requestAnimationFrame(animateFireflies);
         }
 
-        function startFireworks() {
-            if (!fireworksActive) {
-                fireworksActive = true;
-                animateFireworks();
-            }
+        function startFireflies() {
+            animateFireflies();
         }
-
-        function stopFireworks() {
-            fireworksActive = false;
-            cancelAnimationFrame(animationId);
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles = [];
-        }
-
-        // Click on canvas to create fireworks (Desktop only)
-        canvas.addEventListener('click', (e) => {
-            if (fireworksActive) {
-                createParticle(e.clientX, e.clientY);
-            }
-        });
