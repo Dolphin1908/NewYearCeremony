@@ -1,75 +1,142 @@
 /* Custom Font Setup */
-        .font-handwriting { font-family: 'Dancing Script', cursive; }
-        .font-serif-display { font-family: 'Playfair Display', serif; }
-        .font-body { font-family: 'Roboto', sans-serif; }
+        .font-ghibli { font-family: 'Mali', cursive; }
+        .font-hand { font-family: 'Patrick Hand', cursive; }
+
+        /* === COLOR PALETTE === */
+        :root {
+            --sky-blue: #A2D2FF;
+            --cloud-white: #FDFBF7;
+            --grass-green: #95D5B2;
+            --wood-brown: #B08968;
+            --pastel-pink: #FFC8DD;
+            --text-dark: #4A4E69;
+        }
 
         /* Background & Basics */
         body {
-            background: linear-gradient(135deg, #8E0E00, #1F1C18);
-            color: #FFD700;
+            background: linear-gradient(180deg, #A2D2FF 0%, #CDB4DB 100%);
+            color: var(--text-dark);
             overflow-x: hidden;
             min-height: 100vh;
         }
 
-        /* Animations */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-        .animate-float { animation: float 3s ease-in-out infinite; }
-
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 10px #FFD700; transform: scale(1); }
-            50% { box-shadow: 0 0 25px #FFD700; transform: scale(1.02); }
-        }
-        .btn-glow { animation: pulse-glow 2s infinite; }
-
-        @keyframes fade-in {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .fade-in-element { animation: fade-in 1s ease-out forwards; }
-
-        /* Lantern Styling */
-        .lantern {
+        /* === ANIMATED CLOUDS === */
+        .cloud {
             position: absolute;
-            top: -20px;
-            width: 60px;
-            height: 80px;
-            background: #d80000;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50px;
+            animation: moveCloud linear infinite;
+            z-index: 0;
+        }
+        .cloud::after, .cloud::before {
+            content: '';
+            position: absolute;
+            background: inherit;
+            border-radius: 50%;
+        }
+        
+        .c1 { width: 120px; height: 40px; top: 10%; left: -20%; animation-duration: 25s; }
+        .c1::after { width: 50px; height: 50px; top: -25px; left: 15px; }
+        .c1::before { width: 40px; height: 40px; top: -15px; left: 50px; }
+
+        .c2 { width: 100px; height: 30px; top: 25%; left: -10%; animation-duration: 35s; animation-delay: 5s; opacity: 0.7; }
+        .c2::after { width: 40px; height: 40px; top: -20px; left: 10px; }
+
+        @keyframes moveCloud {
+            0% { transform: translateX(-100px); }
+            100% { transform: translateX(110vw); }
+        }        
+
+        /* === PAPER CARD STYLE === */
+        .ghibli-card {
+            background: var(--cloud-white);
             border-radius: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            box-shadow: 
+                0 10px 20px rgba(0,0,0,0.05), 
+                0 6px 6px rgba(0,0,0,0.05),
+                inset 0 0 40px rgba(255, 250, 240, 0.8); /* Texture effect */
+            border: 4px solid white;
+            position: relative;
+        }
+
+        /* Washi Texture Overlay (Base64 để tránh lỗi CORS khi chụp ảnh) */
+        .washi-texture {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 8px;
+            opacity: 0.6;
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.2' fill-rule='evenodd'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z'/%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        /* Soot Sprite (Susuwatari) Decoration */
+        .soot {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #2b2d42;
+            border-radius: 50%;
+            filter: blur(1px);
             z-index: 10;
         }
-        .lantern::before {
+        .soot::before, .soot::after {
             content: '';
             position: absolute;
-            top: -5px;
-            left: 20px;
-            width: 20px;
-            height: 10px;
-            background: #333;
+            background: white;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            top: 8px;
         }
-        .lantern::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 20px;
-            width: 20px;
-            height: 10px;
-            background: #333;
-        }
-        .lantern-string {
-            position: absolute;
-            bottom: -20px;
-            left: 25px;
-            width: 2px;
-            height: 20px;
-            background: #FFD700;
+        .soot::before { left: 5px; }
+        .soot::after { right: 5px; }
+        
+        .soot-1 { bottom: -10px; left: 20px; animation: bounce 2s infinite; }
+        .soot-2 { bottom: -5px; left: 55px; width: 20px; height: 20px; animation: bounce 2.5s infinite 0.5s; }
+        .soot-2::before, .soot-2::after { width: 5px; height: 5px; top: 5px; }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
-        /* Screen Transitions */
+        /* === BUTTONS === */
+        .btn-ghibli {
+            background: white;
+            border: 2px solid #E5E5E5;
+            border-radius: 15px;
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 0 #E5E5E5;
+        }
+        
+        .btn-ghibli:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #E5E5E5;
+        }
+
+        .btn-ghibli:hover {
+            border-color: var(--sky-blue);
+            color: var(--sky-blue);
+        }
+
+        .btn-primary-ghibli {
+            background: var(--grass-green);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 0 #74c69d;
+            transition: all 0.2s;
+        }
+        .btn-primary-ghibli:hover {
+            background: #74c69d;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #52b788;
+        }
+        .btn-primary-ghibli:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #52b788;
+        }
+
+        /* === UTILS === */
         .screen {
             display: none;
             opacity: 0;
@@ -80,25 +147,16 @@
             opacity: 1;
         }
 
-        /* Custom Scrollbar for wishes */
-        .wish-box::-webkit-scrollbar {
-            width: 6px;
-        }
-        .wish-box::-webkit-scrollbar-track {
-            background: rgba(255, 215, 0, 0.1); 
-        }
-        .wish-box::-webkit-scrollbar-thumb {
-            background: #FFD700; 
-            border-radius: 3px;
-        }
-
-        /* Canvas for Fireworks */
-        #fireworks-canvas {
+        #fireflies-canvas {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
-            z-index: 5;
+            z-index: 1;
+        }
+        
+        /* Floating Text Animation */
+        .floating { animation: float 3s ease-in-out infinite; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
         }
