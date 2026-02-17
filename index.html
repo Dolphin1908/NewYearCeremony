@@ -6,123 +6,144 @@
     <title>Chúc Mừng Năm Mới 2026 - Bính Ngọ</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@600&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- html2canvas Library for capturing screenshots -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <!-- Google Fonts: Mali (Handwritten style) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mali:wght@300;500;700&family=Patrick+Hand&display=swap&subset=vietnamese" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <link rel="stylesheet" href="./style.css">
     
 </head>
-<body class="font-body flex items-center justify-center relative">
+<body class="font-ghibli flex items-center justify-center relative">
 
-    <!-- Canvas for Fireworks -->
-    <canvas id="fireworks-canvas"></canvas>
+    <canvas id="fireflies-canvas"></canvas>
 
-    <!-- Background Lanterns (Decorative) -->
-    <div class="lantern animate-float" style="left: 10%; animation-delay: 0s;">
-        <div class="lantern-string"></div>
-    </div>
-    <div class="lantern animate-float" style="right: 10%; animation-delay: 1.5s;">
-        <div class="lantern-string"></div>
-    </div>
+    <!-- Animated Background Clouds -->
+    <div class="cloud c1"></div>
+    <div class="cloud c2"></div>
 
-    <!-- Music Control -->
-    <button id="music-btn" class="fixed top-4 right-4 z-50 bg-yellow-600/50 hover:bg-yellow-600 text-white rounded-full p-3 shadow-lg transition duration-300 backdrop-blur-sm">
+    <!-- Music Control (Wooden Style) -->
+    <button id="music-btn" class="fixed top-6 right-6 z-50 bg-[#B08968] text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:bg-[#9c785c] transition border-2 border-white">
         <i class="fas fa-volume-mute"></i>
     </button>
     
-    <!-- Hidden Audio Element -->
-    <!-- Đã thêm thuộc tính autoplay, nhưng trình duyệt có thể chặn nếu chưa tương tác -->
+    <!-- Gentle Piano Music (Replace with actual Ghibli track if you have one) -->
     <audio id="bg-music" loop autoplay>
         <source src="./NewYearSong.mp3" type="audio/mpeg">
     </audio>
 
     <!-- Main Container -->
-    <!-- Đã sửa max-w-md thành max-w-lg để khung rộng hơn -->
-    <div class="relative z-20 w-full max-w-lg bg-red-900/80 backdrop-blur-md rounded-2xl border-2 border-yellow-500 shadow-2xl overflow-hidden m-4 min-h-[500px]">
+    <div class="relative z-20 w-full max-w-md ghibli-card overflow-hidden min-h-[600px] flex flex-col m-4 p-2">
         
-        <!-- Decorative Corners -->
-        <div class="absolute top-2 left-2 text-yellow-500 text-3xl opacity-50"><i class="fas fa-certificate"></i></div>
-        <div class="absolute top-2 right-2 text-yellow-500 text-3xl opacity-50"><i class="fas fa-certificate"></i></div>
-        <div class="absolute bottom-2 left-2 text-yellow-500 text-3xl opacity-50"><i class="fas fa-certificate"></i></div>
-        <div class="absolute bottom-2 right-2 text-yellow-500 text-3xl opacity-50"><i class="fas fa-certificate"></i></div>
+        <!-- Frame decoration -->
+        <div class="washi-texture"></div>
+        
+        <!-- Soot Sprites -->
+        <div class="soot soot-1"></div>
+        <div class="soot soot-2"></div>
 
         <!-- SCREEN 1: QUIZ -->
-        <div id="screen-quiz" class="screen active flex-col items-center justify-center p-8 h-full min-h-[500px]">
-            <h1 class="font-handwriting text-5xl text-yellow-400 mb-6 text-center animate-float">Chào Xuân 2026</h1>
+        <div id="screen-quiz" class="screen active flex-col items-center justify-center p-6 h-full flex-grow relative">
             
-            <p class="text-white text-center text-lg mb-8 font-light">
-                Năm mới Bính Ngọ này, điều bạn mong chờ nhất là gì?
-            </p>
+            <div class="mb-8 text-center floating">
+                <div class="text-4xl text-[#B08968] mb-2"><i class="fas fa-sun"></i></div>
+                <h1 class="text-4xl font-bold text-[#4A4E69] mb-3">Chào 2026</h1>
+                <p class="text-[#9A8C98] text-lg">Năm mới, bạn mong chờ điều gì?</p>
+            </div>
 
-            <div class="w-full space-y-4">
-                <button onclick="handleAnswer('Tài Lộc')" class="w-full py-3 px-6 rounded-xl border border-yellow-500 hover:bg-yellow-500 hover:text-red-900 transition duration-300 text-lg font-bold flex items-center justify-between group bg-black/20">
-                    <span><i class="fas fa-coins mr-3 text-yellow-300"></i>Tài Lộc Đầy Nhà</span>
-                    <i class="fas fa-chevron-right opacity-0 group-hover:opacity-100 transition"></i>
+            <div class="w-full space-y-4 px-4">
+                <button onclick="handleAnswer('BinhYen')" class="btn-ghibli w-full py-4 px-6 flex items-center gap-4 group">
+                    <div class="w-12 h-12 bg-[#FFC8DD] rounded-full flex items-center justify-center text-white text-xl">
+                        <i class="fas fa-coffee"></i>
+                    </div>
+                    <div class="text-left">
+                        <div class="font-bold text-lg">Bình Yên</div>
+                        <div class="text-sm text-gray-400 font-hand">Sống chậm lại, yêu thương nhiều hơn</div>
+                    </div>
                 </button>
 
-                <button onclick="handleAnswer('Tình Duyên')" class="w-full py-3 px-6 rounded-xl border border-yellow-500 hover:bg-yellow-500 hover:text-red-900 transition duration-300 text-lg font-bold flex items-center justify-between group bg-black/20">
-                    <span><i class="fas fa-heart mr-3 text-pink-400"></i>Tình Duyên Phơi Phới</span>
-                    <i class="fas fa-chevron-right opacity-0 group-hover:opacity-100 transition"></i>
+                <button onclick="handleAnswer('PhieuLuu')" class="btn-ghibli w-full py-4 px-6 flex items-center gap-4 group">
+                    <div class="w-12 h-12 bg-[#A2D2FF] rounded-full flex items-center justify-center text-white text-xl">
+                        <i class="fas fa-plane"></i>
+                    </div>
+                    <div class="text-left">
+                        <div class="font-bold text-lg">Phiêu Lưu</div>
+                        <div class="text-sm text-gray-400 font-hand">Những vùng đất mới đang chờ</div>
+                    </div>
                 </button>
 
-                <button onclick="handleAnswer('Sức Khỏe')" class="w-full py-3 px-6 rounded-xl border border-yellow-500 hover:bg-yellow-500 hover:text-red-900 transition duration-300 text-lg font-bold flex items-center justify-between group bg-black/20">
-                    <span><i class="fas fa-mountain mr-3 text-green-400"></i>Sức Khỏe Dồi Dào</span>
-                    <i class="fas fa-chevron-right opacity-0 group-hover:opacity-100 transition"></i>
+                <button onclick="handleAnswer('TruongThanh')" class="btn-ghibli w-full py-4 px-6 flex items-center gap-4 group">
+                    <div class="w-12 h-12 bg-[#95D5B2] rounded-full flex items-center justify-center text-white text-xl">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <div class="text-left">
+                        <div class="font-bold text-lg">Trưởng Thành</div>
+                        <div class="text-sm text-gray-400 font-hand">Vững vàng hơn mỗi ngày</div>
+                    </div>
                 </button>
             </div>
         </div>
 
-        <!-- SCREEN 2: LOADING / THANKS -->
-        <div id="screen-loading" class="screen flex-col items-center justify-center p-8 text-center h-full min-h-[500px]">
-            <div class="text-6xl text-yellow-400 mb-4 animate-bounce">
-                <i class="fas fa-envelope-open-text"></i>
+        <!-- SCREEN 2: LOADING (Train Scene Metaphor) -->
+        <div id="screen-loading" class="screen flex-col items-center justify-center p-8 text-center h-full flex-grow">
+            <div class="mb-6 text-[#4A4E69] text-6xl animate-bounce">
+                <i class="fas fa-train"></i>
             </div>
-            <h2 class="font-serif-display text-2xl text-white mb-2">Cảm ơn bạn đã chia sẻ!</h2>
-            <p class="text-yellow-200">Đang gửi tín hiệu tới vũ trụ...</p>
-            <div class="mt-6 w-12 h-12 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+            <h2 class="text-2xl text-[#4A4E69] font-bold mb-2">Chuyến tàu mùa xuân...</h2>
+            <p class="text-[#9A8C98] font-hand text-xl">Đang chở điều ước của bạn đi...</p>
         </div>
 
-        <!-- SCREEN 3: GREETING CARD -->
-        <div id="screen-card" class="screen flex-col items-center p-8 h-full min-h-[500px] relative">
-            <!-- Header -->
-            <div class="text-center mt-2 mb-6">
-                <div class="text-yellow-500 text-sm tracking-[0.3em] uppercase mb-1">Happy New Year</div>
-                <h1 class="font-handwriting text-6xl text-yellow-400 drop-shadow-lg">Bính Ngọ 2026</h1>
-            </div>
-
-            <!-- Main Greeting Box -->
-            <!-- Đã tăng padding từ p-6 lên p-10 và chỉnh lại vị trí icon để tránh bị chồng chữ -->
-            <div class="bg-red-950/50 p-10 rounded-xl border border-yellow-600/30 w-full mb-6 shadow-inner relative">
-                <i class="fas fa-quote-left text-yellow-600/30 text-5xl absolute top-3 left-3"></i>
-                
-                <div id="greeting-content" class="text-center min-h-[140px] flex items-center justify-center px-4 relative z-10">
-                    <p id="wishText" class="text-xl leading-relaxed text-white font-serif-display italic">
-                    </p>
+        <!-- SCREEN 3: RESULT -->
+        <div id="screen-card" class="screen flex-col items-center p-8 h-full flex-grow relative">
+            
+            <div class="text-center mt-6 mb-6 w-full">
+                <div class="inline-block px-3 py-1 bg-[#FFC8DD] rounded-full text-white text-sm mb-3 shadow-sm transform -rotate-2">
+                    Happy New Year
                 </div>
-                
-                <i class="fas fa-quote-right text-yellow-600/30 text-5xl absolute bottom-3 right-3"></i>
+                <h1 class="text-6xl font-bold text-[#A2D2FF] drop-shadow-sm font-hand" style="text-shadow: 2px 2px 0px #fff;">
+                    2026
+                </h1>
             </div>
 
-            <!-- Interactive Buttons -->
-            <div class="mt-auto w-full space-y-4">
-                <button onclick="randomWish()" class="btn-glow w-full bg-gradient-to-r from-yellow-600 to-yellow-400 text-red-900 font-bold py-4 rounded-full shadow-lg transform active:scale-95 transition flex items-center justify-center text-lg">
-                    <i class="fas fa-dice mr-2"></i> Xin Quẻ May Mắn
+            <!-- Wish Box (Note paper style) -->
+            <div class="relative w-full mb-8 transform rotate-1">
+                <!-- Pin -->
+                <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-[#d62828] rounded-full shadow-md z-10 border-2 border-white/50"></div>
+                
+                <div class="bg-[#fff9c4] p-6 shadow-md" style="border-radius: 2px 2px 20px 2px;">
+                    <!-- Lines -->
+                    <div class="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20" 
+                         style="background-image: repeating-linear-gradient(#fff9c4 0px, #fff9c4 24px, #4A4E69 25px);">
+                    </div>
+                    
+                    <div id="greeting-content" class="text-center relative z-10 pt-2">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="mt-auto w-full space-y-3 pb-4">
+                <button onclick="randomWish()" class="btn-primary-ghibli w-full py-3 text-lg font-bold">
+                    <i class="fas fa-envelope-open-text mr-2"></i> Mở lá thư khác
                 </button>
                 
-                <div class="flex gap-3">
-                    <button onclick="shareLink()" class="flex-1 bg-transparent border border-yellow-500 text-yellow-500 py-3 rounded-full text-sm hover:bg-yellow-500 hover:text-red-900 transition font-medium">
-                        <i class="fas fa-share-alt mr-1"></i> Chia sẻ
+                <div class="flex justify-center gap-6 mt-4">
+                    <button onclick="shareLink()" class="text-[#9A8C98] hover:text-[#4A4E69] transition flex items-center gap-2 font-hand text-lg">
+                        <i class="fas fa-share-alt"></i> Chia sẻ
                     </button>
-                    <button onclick="restart()" class="flex-1 bg-transparent border border-white/30 text-white/70 py-3 rounded-full text-sm hover:bg-white/10 transition font-medium">
-                        <i class="fas fa-redo mr-1"></i> Làm lại
+                    <button onclick="restart()" class="text-[#9A8C98] hover:text-[#4A4E69] transition flex items-center gap-2 font-hand text-lg">
+                        <i class="fas fa-home"></i> Về nhà
                     </button>
                 </div>
             </div>
             
-            <!-- Footer text -->
-            <p class="text-xs text-yellow-500/50 mt-6 text-center">Deployed by Netlify</p>
+            <!-- Flowers decor -->
+            <div class="absolute bottom-2 right-2 text-[#FFC8DD] text-2xl opacity-80"><i class="fas fa-fan"></i></div>
+            <div class="absolute bottom-4 left-4 text-[#A2D2FF] text-xl opacity-80"><i class="fas fa-fan"></i></div>
         </div>
 
     </div>
